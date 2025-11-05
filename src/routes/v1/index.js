@@ -5,6 +5,7 @@ import { employeesRouter } from './employeesRoute.js'
 import { customersRouter } from './customersRoute.js'
 import { productsRouter } from './productsRoute.js'
 import { ordersRouter } from './ordersRouter.js'
+import { orderDetailsRouter } from './orderDetailsRouter.js'
 
 const Router = express.Router()
 
@@ -17,6 +18,8 @@ Router.use('/employees', employeesRouter)
 Router.use('/customers', customersRouter)
 Router.use('/products', productsRouter)
 Router.use('/orders', ordersRouter)
+Router.use('/orderDetails', orderDetailsRouter)
+
 
 export const APIs_V1 = Router
 
