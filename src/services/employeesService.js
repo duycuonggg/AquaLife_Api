@@ -9,7 +9,6 @@ const createNew = async (reqBody) => {
       ...reqBody,
       password: hashed
     }
-    delete newEmployees.password
 
     const createEmployees = await employeesModel.createNew(newEmployees)
     return createEmployees

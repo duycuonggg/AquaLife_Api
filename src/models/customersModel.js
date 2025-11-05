@@ -8,8 +8,8 @@ const CUSTOMERS_COLLECTION_SCHEMA = Joi.object({
   email: Joi.string().email({ tlds: { allow: false } }).required(),
   phone: Joi.string().pattern(PHONE_RULE).message(PHONE_RULE_MESSAGE),
   address: Joi.string().min(10).max(255).required(),
-  createAt: Joi.date().timestamp('javascript').default(Date.now),
   password: Joi.string().min(10).max(100).required(),
+  createAt: Joi.date().timestamp('javascript').default(Date.now),
   updatedAt: Joi.date().timestamp('javascript').default(Date.now)
 })
 
