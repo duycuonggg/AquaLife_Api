@@ -2,6 +2,7 @@ import express from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { branchesRouter } from './branchesRoute.js'
 import { employeesRouter } from './employeesRoute.js'
+import { customersRouter } from './customersRoute.js'
 
 const Router = express.Router()
 
@@ -11,6 +12,7 @@ Router.get('/status', (req, res) => {
 
 Router.use('/branches', branchesRouter)
 Router.use('/employees', employeesRouter)
+Router.use('/customers', customersRouter)
 
 
 export const APIs_V1 = Router
