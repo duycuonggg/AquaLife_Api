@@ -4,8 +4,8 @@ import { productsService } from '~/services/productsService'
 const createNew = async (req, res, next) => {
 
   try {
-    const createproducts = await productsService.createNew(req.body)
-    res.status(StatusCodes.CREATED).json(createproducts)
+    const createProducts = await productsService.createNew(req.body)
+    res.status(StatusCodes.CREATED).json(createProducts)
   } catch (error) { next(error) }
 }
 

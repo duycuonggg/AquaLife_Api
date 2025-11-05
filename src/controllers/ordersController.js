@@ -4,8 +4,8 @@ import { ordersService } from '~/services/ordersService'
 const createNew = async (req, res, next) => {
 
   try {
-    const createorders = await ordersService.createNew(req.body)
-    res.status(StatusCodes.CREATED).json(createorders)
+    const createOrders = await ordersService.createNew(req.body)
+    res.status(StatusCodes.CREATED).json(createOrders)
   } catch (error) { next(error) }
 }
 
