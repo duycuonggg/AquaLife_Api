@@ -5,13 +5,13 @@ const createNew = async (reqBody) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const hashed = await hashPassword(reqBody.password)
-    const newcustomers = {
+    const newCustomers = {
       ...reqBody,
       password: hashed
     }
 
-    const createcustomers = await customersModel.createNew(newcustomers)
-    return createcustomers
+    const createCustomers = await customersModel.createNew(newCustomers)
+    return createCustomers
   } catch (error) { throw error }
 }
 

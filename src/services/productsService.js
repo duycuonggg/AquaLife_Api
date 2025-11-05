@@ -3,12 +3,12 @@ import { productsModel } from '~/models/productsModel'
 const createNew = async (reqBody) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const newproducts = {
+    const newProducts = {
       ...reqBody
     }
 
-    const createproducts = await productsModel.createNew(newproducts)
-    return createproducts
+    const createProducts = await productsModel.createNew(newProducts)
+    return createProducts
   } catch (error) { throw error }
 }
 
