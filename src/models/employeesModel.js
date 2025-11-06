@@ -31,6 +31,16 @@ const createNew = async (data) => {
   } catch (error) { throw new Error(error) }
 }
 
+const getAll = async () => {
+  return await GET_DB().collection(EMPLOYEES_COLLECTION_NAME).find({}).toArray()
+}
+
+const getById = async (id) => {
+  return await GET_DB().collection(EMPLOYEES_COLLECTION_NAME).findOne({ _id: new ObjectId(id) })
+}
+
 export const employeesModel = {
-  createNew
+  createNew,
+  getAll,
+  getById
 }
