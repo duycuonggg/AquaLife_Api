@@ -15,6 +15,16 @@ const createNew = async (reqBody) => {
   } catch (error) { throw error }
 }
 
+const getAll = async () => {
+  return await employeesModel.getAll()
+}
+
+const getById = async (id) => {
+  return await employeesModel.getById(id)
+}
+
 export const employeesService = {
-  createNew
+  createNew,
+  getAll,
+  getById
 }

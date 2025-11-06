@@ -7,11 +7,11 @@ export const errorHandlingMiddleware = (err, req, res, next) => {
 
   const responseError = {
     statusCode: err.statusCode,
-    message: err.message || StatusCodes[err.statusCode], 
+    message: err.message || StatusCodes[err.statusCode],
     stack: err.stack
   }
 
   if (env.BUILD_MODE !== 'dev') delete responseError.stack
-  
+
   res.status(responseError.statusCode).json(responseError)
 }
