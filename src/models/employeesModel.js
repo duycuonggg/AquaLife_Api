@@ -10,6 +10,7 @@ const EMPLOYEES_COLLECTION_SCHEMA = Joi.object({
   email: Joi.string().email({ tlds: { allow: false } }).required(),
   phone: Joi.string().pattern(PHONE_RULE).message(PHONE_RULE_MESSAGE),
   role: Joi.string().valid('admin', 'manager', 'staff').required(),
+  password: Joi.string().min(6).required(),
   createAt: Joi.date().timestamp('javascript').default(Date.now),
   updatedAt: Joi.date().timestamp('javascript').default(Date.now)
 })
