@@ -22,11 +22,11 @@ const validateBeforeCreate = async (data) => {
 const createNew = async (data) => {
   try {
     const validData = await validateBeforeCreate(data)
-    const newBranchToAdd = {
+    const newEmployeeToAdd = {
       ...validData,
       branchesId: new ObjectId(validData.branchesId)
     }
-    const createBranches = await GET_DB().collection(EMPLOYEES_COLLECTION_NAME).insertOne(newBranchToAdd)
+    const createBranches = await GET_DB().collection(EMPLOYEES_COLLECTION_NAME).insertOne(newEmployeeToAdd)
     return createBranches
   } catch (error) { throw new Error(error) }
 }

@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes'
 import { authService } from '~/services/authService'
 
+
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body
@@ -9,6 +10,14 @@ const login = async (req, res, next) => {
   } catch (error) { next(error) }
 }
 
+const register = async (req, res, next) => {
+  try {
+    const result = await authService.register(req.body)
+    res.status(StatusCodes.CREATED).json(result)
+  } catch (error) { next(error) }
+}
+
 export const authController = {
-  login
+  login,
+  register
 }
