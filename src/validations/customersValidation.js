@@ -22,7 +22,7 @@ const createNew = async (req, res, next) => {
 
     phone: Joi.string().pattern(PHONE_RULE).message(PHONE_RULE_MESSAGE),
 
-    address: Joi.string().min(10).max(255).required().messages({
+    address: Joi.string().min(10).max(255).messages({
       'string.base': '"address" must be a string.',
       'string.empty': '"address" cannot be an empty field.',
       'string.min': '"address" should have a minimum length of {#limit} characters.',
