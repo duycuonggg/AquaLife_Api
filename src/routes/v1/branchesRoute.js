@@ -6,5 +6,6 @@ const Router = express.Router()
 
 Router.route('/')
   .post(branchesValidation.createNew, branchesController.createNew)
+  .get(branchesController.getAll)
 
 export const branchesRouter = Router

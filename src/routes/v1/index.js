@@ -7,7 +7,6 @@ import { productsRouter } from './productsRoute.js'
 import { ordersRouter } from './ordersRouter.js'
 import { orderDetailsRouter } from './orderDetailsRouter.js'
 import { authRoute } from './authRoute.js'
-import { suppliersRouter } from './suppliersRoute.js'
 
 const Router = express.Router()
 
@@ -22,7 +21,6 @@ Router.use('/products', productsRouter)
 Router.use('/orders', ordersRouter)
 Router.use('/orderDetails', orderDetailsRouter)
 Router.use('/auth', authRoute)
-Router.use('/suppliers', suppliersRouter)
 
 export const APIs_V1 = Router
 

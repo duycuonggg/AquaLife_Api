@@ -12,6 +12,12 @@ const createNew = async (reqBody) => {
   } catch (error) { throw error }
 }
 
+const getAll = async () => {
+  const items = await branchesModel.getAll()
+  return items
+}
+
 export const branchesService = {
-  createNew
+  createNew,
+  getAll
 }

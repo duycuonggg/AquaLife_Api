@@ -12,5 +12,10 @@ Router.route('/')
 
 Router.route('/:id')
   .get(verifyToken, employeesController.getById)
+  .put(verifyToken, authorize('admin'), employeesController.updateById, employeesValidation.update)
+  .delete(verifyToken, authorize('admin'), employeesController.deleteById)
+
+Router.route('/')
+  .delete(verifyToken, authorize('admin'), employeesController.deleteAll)
 
 export const employeesRouter = Router
