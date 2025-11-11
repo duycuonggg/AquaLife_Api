@@ -17,12 +17,28 @@ const START_SERVER = () => {
   app.use(errorHandlingMiddleware)
 
   if (env.BUILD_MODE === 'production') {
-    app.listen(process.env.PORT, () => {
+    const server = app.listen(process.env.PORT, () => {
       console.log(`Production Hello ${env.AUTHOR}, Back-end sever is running successfully at Port ${process.env.PORT}`)
     })
+    server.on('error', (err) => {
+      if (err && err.code === 'EADDRINUSE') {
+        console.error(`Port ${process.env.PORT} is already in use. Please free the port or set PORT to a different value.`)
+        process.exit(1)
+      }
+      console.error('Server error', err)
+      process.exit(1)
+    })
   } else {
-    app.listen(env.LOCAL_DEV_APP_PORT, env.LOCAL_DEV_APP_HOST, () => {
+    const server = app.listen(env.LOCAL_DEV_APP_PORT, env.LOCAL_DEV_APP_HOST, () => {
       console.log(`Local Dev Hello ${env.AUTHOR}, Back-end sever is running successfully at Host ${env.LOCAL_DEV_APP_HOST} and Port: ${env.LOCAL_DEV_APP_PORT}`)
+    })
+    server.on('error', (err) => {
+      if (err && err.code === 'EADDRINUSE') {
+        console.error(`Local Dev port ${env.LOCAL_DEV_APP_PORT} is already in use. Please free the port or change LOCAL_DEV_APP_PORT in your environment.`)
+        process.exit(1)
+      }
+      console.error('Server error', err)
+      process.exit(1)
     })
   }
 

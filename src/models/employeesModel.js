@@ -23,8 +23,12 @@ const createNew = async (data) => {
   try {
     const validData = await validateBeforeCreate(data)
     const newEmployeeToAdd = {
-      ...validData,
-      branchesId: new ObjectId(validData.branchesId)
+      ...validData
+    }
+
+    // only convert branchesId to ObjectId if provided
+    if (validData.branchesId) {
+      newEmployeeToAdd.branchesId = new ObjectId(validData.branchesId)
     }
     const createBranches = await GET_DB().collection(EMPLOYEES_COLLECTION_NAME).insertOne(newEmployeeToAdd)
     return createBranches
@@ -39,8 +43,33 @@ const getById = async (id) => {
   return await GET_DB().collection(EMPLOYEES_COLLECTION_NAME).findOne({ _id: new ObjectId(id) })
 }
 
+const updateById = async (id, data) => {
+  try {
+    const update = { $set: { ...data, updatedAt: Date.now() } }
+    const result = await GET_DB().collection(EMPLOYEES_COLLECTION_NAME).updateOne({ _id: new ObjectId(id) }, update)
+    return result
+  } catch (error) { throw new Error(error) }
+}
+
+const deleteById = async (id) => {
+  try {
+    const result = await GET_DB().collection(EMPLOYEES_COLLECTION_NAME).deleteOne({ _id: new ObjectId(id) })
+    return result
+  } catch (error) { throw new Error(error) }
+}
+
+const deleteAll = async () => {
+  try {
+    const result = await GET_DB().collection(EMPLOYEES_COLLECTION_NAME).deleteMany({})
+    return result
+  } catch (error) { throw new Error(error) }
+}
+
 export const employeesModel = {
   createNew,
   getAll,
-  getById
+  getById,
+  updateById,
+  deleteById,
+  deleteAll
 }

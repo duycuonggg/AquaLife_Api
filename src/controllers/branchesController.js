@@ -9,6 +9,14 @@ const createNew = async (req, res, next) => {
   } catch (error) { next(error) }
 }
 
+const getAll = async (req, res, next) => {
+  try {
+    const items = await branchesService.getAll()
+    res.status(StatusCodes.OK).json(items)
+  } catch (error) { next(error) }
+}
+
 export const branchesController = {
-  createNew
+  createNew,
+  getAll
 }

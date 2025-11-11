@@ -23,8 +23,23 @@ const getById = async (id) => {
   return await employeesModel.getById(id)
 }
 
+const updateById = async (id, data) => {
+  return await employeesModel.updateById(id, data)
+}
+
+const deleteById = async (id) => {
+  return await employeesModel.deleteById(id)
+}
+
+const deleteAll = async () => {
+  return await employeesModel.deleteAll()
+}
+
 export const employeesService = {
   createNew,
   getAll,
-  getById
+  getById,
+  updateById,
+  deleteById,
+  deleteAll
 }

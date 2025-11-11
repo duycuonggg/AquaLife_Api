@@ -27,6 +27,14 @@ const createNew = async (data) => {
   } catch (error) { throw new Error(error) }
 }
 
+const getAll = async () => {
+  try {
+    const items = await GET_DB().collection(BRANCHES_COLLECTION_NAME).find({}).toArray()
+    return items
+  } catch (error) { throw new Error(error) }
+}
+
 export const branchesModel = {
-  createNew
+  createNew,
+  getAll
 }

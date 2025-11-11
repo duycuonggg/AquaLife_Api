@@ -12,6 +12,27 @@ const createNew = async (reqBody) => {
   } catch (error) { throw error }
 }
 
+const getAll = async () => {
+  const items = await productsModel.getAll()
+  return items
+}
+
+const updateById = async (id, data) => {
+  return await productsModel.updateById(id, data)
+}
+
+const deleteById = async (id) => {
+  return await productsModel.deleteById(id)
+}
+
+const deleteAll = async () => {
+  return await productsModel.deleteAll()
+}
+
 export const productsService = {
-  createNew
+  createNew,
+  getAll,
+  updateById,
+  deleteById,
+  deleteAll
 }

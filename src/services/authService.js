@@ -1,13 +1,12 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { authModel } from '~/models/authModel'
+import { customersModel } from '~/models/customersModel'
 import { env } from '~/config/environment'
-import { usersModel } from '~/models/usersModel'
 import { employeesService } from '~/services/employeesService.js'
 import { customersService } from '~/services/customersService.js'
 
 const login = async (email, password) => {
-  // try to authenticate as an employee first, then fallback to public users
   // eslint-disable-next-line no-useless-catch
   try {
     const employees = await authModel.findByEmail(email)
@@ -32,28 +31,27 @@ const login = async (email, password) => {
         }
       }
     }
+    // If no employee found, try customers collection
+    const customer = await customersModel.findByEmail(email)
+    if (customer) {
+      const isMatchCust = await bcrypt.compare(password, customer.password)
+      if (!isMatchCust) throw new Error('Incorrect password')
 
-    // fallback: check public users collection
-    const user = await usersModel.findByEmail(email)
-    if (!user) throw new Error('Email not found')
+      const tokenCust = jwt.sign(
+        { id: customer._id, role: 'customer', email: customer.email },
+        env.JWT_SECRET,
+        { expiresIn: env.JWT_EXPIRES_IN || '7d' }
+      )
 
-    const isMatchUser = await bcrypt.compare(password, user.password)
-    if (!isMatchUser) throw new Error('Incorrect password')
-
-    const token = jwt.sign(
-      { id: user._id, role: 'user', email: user.email },
-      env.JWT_SECRET,
-      { expiresIn: env.JWT_EXPIRES_IN || '7d' }
-    )
-
-    return {
-      message: 'Login successful',
-      token,
-      employee: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: 'user'
+      return {
+        message: 'Login successful',
+        token: tokenCust,
+        customer: {
+          id: customer._id,
+          name: customer.name,
+          email: customer.email,
+          role: 'customer'
+        }
       }
     }
   } catch (error) { throw error }
@@ -62,14 +60,11 @@ const login = async (email, password) => {
 const register = async (userPayload) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    // if role present -> create employee, otherwise create customer
     if (userPayload.role) {
-      // create employee (employeesService will hash password and validate)
       const createEmployees = await employeesService.createNew(userPayload)
       return { message: 'Employee account created', data: createEmployees }
     }
 
-    // no role -> create customer
     const createCustomer = await customersService.createNew(userPayload)
     return { message: 'Customer account created', data: createCustomer }
   } catch (error) { throw error }

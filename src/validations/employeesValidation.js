@@ -47,6 +47,26 @@ const createNew = async (req, res, next) => {
   }
 }
 
+const update = async (req, res, next) => {
+  // for update we allow password to be optional
+  const updateCondition = Joi.object({
+    branchesId: Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE),
+    name: Joi.string().min(3).max(100).messages(),
+    email: Joi.string().email({ tlds: { allow: false } }).messages(),
+    phone: Joi.string().pattern(PHONE_RULE).message(PHONE_RULE_MESSAGE),
+    role: Joi.string().valid('admin', 'manager', 'staff').messages(),
+    password: Joi.string().min(6).max(100).messages()
+  })
+
+  try {
+    await updateCondition.validateAsync(req.body, { abortEarly: false })
+    next()
+  } catch (error) {
+    next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, new Error(error).message))
+  }
+}
+
 export const employeesValidation = {
-  createNew
+  createNew,
+  update
 }
