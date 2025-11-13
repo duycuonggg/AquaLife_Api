@@ -23,7 +23,8 @@ const createNew = async (data) => {
   try {
     const validData = await validateBeforeCreate(data)
     const newEmployeeToAdd = {
-      ...validData
+      ...validData,
+      branchesId: new ObjectId(validData.branchesId)
     }
 
     // only convert branchesId to ObjectId if provided

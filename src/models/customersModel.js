@@ -1,10 +1,11 @@
 import Joi from 'joi'
 import { GET_DB } from '~/config/mongodb'
-import { PHONE_RULE, PHONE_RULE_MESSAGE } from '~/utils/validatiors.js'
+import { PHONE_RULE, PHONE_RULE_MESSAGE, OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } from '~/utils/validatiors.js'
 import { ObjectId } from 'mongodb'
 
 const CUSTOMERS_COLLECTION_NAME = 'customers'
 const CUSTOMERS_COLLECTION_SCHEMA = Joi.object({
+  branchesId: Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE),
   name: Joi.string().min(3).max(100).required(),
   email: Joi.string().email({ tlds: { allow: false } }).required(),
   phone: Joi.string().pattern(PHONE_RULE).message(PHONE_RULE_MESSAGE),
@@ -22,7 +23,8 @@ const createNew = async (data) => {
   try {
     const validData = await validateBeforeCreate(data)
     const newCustomerToAdd = {
-      ...validData
+      ...validData,
+      branchesId: new ObjectId(validData.branchesId)
     }
     const createCustomers = await GET_DB().collection(CUSTOMERS_COLLECTION_NAME).insertOne(newCustomerToAdd)
     return createCustomers
