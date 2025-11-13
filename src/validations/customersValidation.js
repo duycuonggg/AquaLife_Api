@@ -1,10 +1,12 @@
 import Joi from 'joi'
 import { StatusCodes } from 'http-status-codes'
 import ApiError from '~/utils/ApiError'
-import { PHONE_RULE, PHONE_RULE_MESSAGE } from '~/utils/validatiors.js'
+import { PHONE_RULE, PHONE_RULE_MESSAGE, OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } from '~/utils/validatiors.js'
 
 const createNew = async (req, res, next) => {
   const correctCondition = Joi.object({
+    branchesId: Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE),
+
     name: Joi.string().min(3).max(100).required().messages({
       'string.base': '"name" must be a string.',
       'string.empty': '"name" cannot be an empty field.',

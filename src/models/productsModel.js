@@ -25,7 +25,8 @@ const createNew = async (data) => {
   try {
     const validData = await validateBeforeCreate(data)
     const newProductToAdd = {
-      ...validData
+      ...validData,
+      branchesId: new ObjectId(validData.branchesId)
     }
     const createProducts = await GET_DB().collection(PRODUCTS_COLLECTION_NAME).insertOne(newProductToAdd)
     return createProducts
